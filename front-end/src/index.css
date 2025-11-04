@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+
+
+/* Ensure full height so min-h-screen actually fills */
+@layer base {
+  html, body, #root { height: 100%; }
+}
