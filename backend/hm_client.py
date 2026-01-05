@@ -20,17 +20,19 @@ HEADERS = {
     "Accept": "application/json",
 }
 
-BASE = f"https://{RAPIDAPI_HOST}"
+BASE = f"https://{RAPIDAPI_HOST }"
 
 async def hm_list_products(categories: str, page: int = 0, size: int = 30) -> dict:
     params = {
-        "country": HM_COUNTRY,
-        "lang": HM_LANG,
-        "currentpage": page,
-        "pagesize": size,
-        "categories": categories,  # e.g., "men_trousers", "ladies_dresses"
-    }
+    "country": HM_COUNTRY,
+    "lang": HM_LANG,
+    "page": page,
+    "pageSize": size,
+    "categoryId": categories,
+    "sort": "RELEVANCE",
+}
+
     async with httpx.AsyncClient(timeout=20) as client:
-        r = await client.get(f"{BASE}/products/list", headers=HEADERS, params=params)
+        r = await client.get(f"{BASE}/products/v2/list", headers=HEADERS, params=params)
         r.raise_for_status()
         return r.json()

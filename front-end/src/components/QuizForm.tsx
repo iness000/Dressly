@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { quizSteps } from "../lib/quizSteps";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import Axios from "axios";
 
 interface QuizFormProps {
   onComplete: (answers: Record<string, any>) => void;
@@ -24,13 +25,31 @@ export default function QuizForm({ onComplete }: QuizFormProps) {
     setCurrentAnswer(answers[currentStep.key] || null);
   }, [step, currentStep.key, answers]);
 
+const sendData = async (answers: Record<string, any>) => {
+  try {
+    const response = await Axios.post(
+      "http://127.0.0.1:8000/quiz/submit",
+      answers
+    );
+
+ console.log("AI result:", response.data.recommendation);
+    return response.data;
+
+  } catch (error) {
+    console.error("Error sending quiz:", error);
+  }
+};
+
   // ============= NAVIGATION =============
   const next = () => {
     const newAnswers = { ...answers, [currentStep.key]: currentAnswer };
     setAnswers(newAnswers);
 
     if (isLastStep) {
-      onComplete(newAnswers);
+      onComplete(newAnswers)
+      sendData(newAnswers);
+      console.log({newAnswers})
+
     } else {
       setStep(step + 1);
     }
@@ -56,28 +75,7 @@ export default function QuizForm({ onComplete }: QuizFormProps) {
     }
   };
 
-  // ============= VALIDATION =============
-  const isStepValid = () => {
-    if (!currentStep.required) return true;
-    if (!currentAnswer) return false;
-
-    switch (currentStep.type) {
-      case "multi":
-        return Array.isArray(currentAnswer) && currentAnswer.length > 0;
-
-      case "inputs":
-      case "range":
-      case "pair":
-        return currentStep.fields.every((f) => {
-          const value = currentAnswer[f.name];
-          return value && value.toString().trim() !== "";
-        });
-
-      default:
-        return true;
-    }
-  };
-
+  
   // ============= RENDER FUNCTIONS =============
   const renderQuestion = () => {
     // 1. Multi-select (occasion, style, colors)
@@ -260,12 +258,13 @@ export default function QuizForm({ onComplete }: QuizFormProps) {
 
             <button
               type="button"
-              onClick={next}
+              onClick={()=>next()}
               //disabled={!isStepValid()}
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-xl font-medium shadow-md hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 transition-all"
             >
               <span>{isLastStep ? "Complete" : "Next"}</span>
               {isLastStep ? (
+                
                 <Check className="w-5 h-5" />
               ) : (
                 <ChevronRight className="w-5 h-5" />

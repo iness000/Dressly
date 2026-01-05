@@ -1,30 +1,13 @@
+import { Sparkles } from "lucide-react";
 
-import "tailwindcss"
-import { Sparkles } from 'lucide-react'
-import QuizForm from "./components/QuizForm"
-import { useState } from "react"
-
-
-type Answers = Record<string,any>
-function App() {
-  const [view,setView]=useState("")
-  const [answers,setAnswers]=useState<Answers | null>(null)
-  const handleStartQuiz =() =>{
-    setView('quiz');
-  }
-  const handleBackHome=()=>{
-    setView("");
-  }
-  const handleQuizComplete=(finalAnswers:Answers)=>{
-    setAnswers(finalAnswers)
-    setView("")
-  }
-
+function Login() {
+    const handleLogin = () => {
+      
+    };
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-100 via-pink-50 to-lavender-100 flex items-center justify-center text- text-3xl font-bol">
-      {view === 'quiz' ? (
-        <QuizForm onComplete={handleQuizComplete}/>
-      ) : (
+      
         <div className="max-w-4xl w-full text-center space-y-8 py-12">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full text-rose-600 text-base font-semibold shadow-lg mb-6 border border-rose-200">
@@ -51,20 +34,19 @@ function App() {
           <div className="space-y-6 pt-8">
             <button
               className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-              onClick={handleStartQuiz}
+              onClick={handleLogin}
             >
-              <span>Start Your Style Quiz</span>
+              <span>LOGIN</span>
               <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
             </button>
 
             <p className="text-sm text-gray-500">Takes only 2 minutes</p>
           </div>
         </div>
-      )}
+      
         
     </div> 
-    
   )
 }
 
-export default App
+export default Login
