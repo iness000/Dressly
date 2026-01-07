@@ -161,4 +161,4 @@ Dressly/
 
 ## License
 
-MIT
+[MIT](LICENSE)
