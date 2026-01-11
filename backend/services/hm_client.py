@@ -32,7 +32,7 @@ async def hm_list_products(
     page: int = 0, 
     size: int = 30
 ) -> dict:
-    \"\"\"
+    """
     Fetch product listings from H&M API.
     
     Args:
@@ -45,7 +45,7 @@ async def hm_list_products(
         
     Raises:
         httpx.HTTPStatusError: If the API request fails
-    \"\"\"
+    """
     params = {
         "country": HM_COUNTRY,
         "lang": HM_LANG,
