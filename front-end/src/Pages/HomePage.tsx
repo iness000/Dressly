@@ -3,6 +3,7 @@ import "tailwindcss"
 import { Sparkles } from 'lucide-react'
 import QuizForm from "../components/QuizForm"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 
 type Answers = Record<string,any>
@@ -17,13 +18,43 @@ function HomePage() {
   }
   const handleQuizComplete=(finalAnswers:Answers)=>{
     setAnswers(finalAnswers)
-    setView("")
+    setView("signin")
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-100 via-pink-50 to-lavender-100 flex items-center justify-center text- text-3xl font-bol">
       {view === 'quiz' ? (
         <QuizForm onComplete={handleQuizComplete}/>
+      ) : view === 'signin' ? (
+        <div className="max-w-2xl w-full">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-10 md:p-12 text-center space-y-6 border border-rose-100">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-rose-100 text-rose-600 text-2xl font-bold mx-auto">
+              ✨
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Sign in to see your results
+            </h2>
+            <p className="text-lg text-gray-600">
+              Your personalized style recommendations are ready. Sign in to unlock your
+              full results and saved looks.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                Go to Sign In
+              </Link>
+              <button
+                type="button"
+                onClick={handleBackHome}
+                className="inline-flex items-center justify-center px-8 py-3 rounded-full border border-rose-200 text-rose-600 font-semibold hover:bg-rose-50 transition-all duration-300"
+              >
+                Back to Home
+              </button>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="max-w-4xl w-full text-center space-y-8 py-12">
           <div className="space-y-4">
