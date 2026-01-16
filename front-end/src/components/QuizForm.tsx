@@ -64,7 +64,7 @@ const sendData = async (answers: Record<string, any>) => {
     }
   };
 
-  // ============= ANSWER MANAGEMENT =============
+  // ANSWER MANAGEMENT
   const toggleOption = (option: string) => {
     const current = currentAnswer || [];
 
@@ -76,9 +76,9 @@ const sendData = async (answers: Record<string, any>) => {
   };
 
   
-  // ============= RENDER FUNCTIONS =============
+  //RENDER FUNCTIONS
   const renderQuestion = () => {
-    // 1. Multi-select (occasion, style, colors)
+    
     if (currentStep.type === "multi") {
       const selected = currentAnswer || [];
 
@@ -273,7 +273,7 @@ const sendData = async (answers: Record<string, any>) => {
           </div>
         </div>
 
-        {/* Debug Info (Optional - remove in production) */}
+        {/* Debug Info */}
         <details className="mt-4">
           <summary className="cursor-pointer text-sm text-gray-600 hover:text-gray-900">
              Debug Info
