@@ -1,5 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import List, Optional
+from datetime import datetime
+
 
 class Height(BaseModel):
     ft: int
@@ -20,3 +22,22 @@ class QuizInput(BaseModel):
     height: Optional[Height] = None
     sizes: Sizes
     budget: Budget
+
+    # Auth Models
+class UserSignup(BaseModel):
+    email: EmailStr
+    password: str
+    name: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserResponse(BaseModel):
+    id: str
+    email: str
+    name: str
+
+class Token(BaseModel):
+    token: str
+    user: UserResponse

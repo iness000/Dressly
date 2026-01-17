@@ -1,15 +1,31 @@
-
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+import os
+from dotenv import load_dotenv
+import certifi
 
-uri = "mongodb+srv://ines_db:inesines2020@cluster0.vmkdgj0.mongodb.net/?appName=Cluster0"
+load_dotenv()
 
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
+uri = os.getenv("MONGODB_URI", "mongodb+srv://ines_db:inesines2020@cluster0.vmkdgj0.mongodb.net/?retryWrites=true&w=majority")
 
-# Send a ping to confirm a successful connection
+# Create client with certifi CA bundle (fixes SSL issues)
 try:
+    client = MongoClient(
+        uri,
+        server_api=ServerApi('1'),
+        tlsCAFile=certifi.where()  # Use certifi's CA bundle
+    )
+    
+    # Get database
+    db = client["dressly_db"]
+    
+    # Collections
+    users_collection = db["users"]
+    quiz_responses_collection = db["quiz_responses"]
+    
+    # Test connection
     client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
+    print("✅ Connected to MongoDB!")
+    
 except Exception as e:
-    print(e)
+    print(f"❌ MongoDB connection failed: {e}")

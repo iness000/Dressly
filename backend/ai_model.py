@@ -1,10 +1,10 @@
-import google.generativeai as genai
+import google.genai as genai
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+genai.api_key = os.getenv("GEMINI_API_KEY")
 
 async def generate_style(data: dict):
     prompt = f"""
