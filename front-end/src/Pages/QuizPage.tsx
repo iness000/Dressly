@@ -5,10 +5,10 @@ export default function QuizPage() {
   const navigate = useNavigate()
 
   const handleQuizComplete = (answers: Record<string, any>) => {
-    // Save answers for later steps
+    // Save answers 
     sessionStorage.setItem("quizAnswers", JSON.stringify(answers))
 
-    // Go to login (or results later if already logged in)
+    // Go to results
     navigate("/Results", { state: { from: "quiz" } })
   }
 

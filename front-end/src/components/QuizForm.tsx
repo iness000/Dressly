@@ -79,6 +79,48 @@ const sendData = async (answers: Record<string, any>) => {
   //RENDER FUNCTIONS
   const renderQuestion = () => {
     
+    // 1. Single choice (gender)
+    if (currentStep.type === "single") {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+          {currentStep.options.map((option: string) => {
+            const isSelected = currentAnswer === option;
+
+            return (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setCurrentAnswer(option)}
+                className={`
+                  relative p-6 rounded-xl border-2 transition-all duration-200
+                  ${
+                    isSelected
+                      ? "border-rose-500 bg-rose-50 shadow-md scale-105"
+                      : "border-gray-200 bg-white hover:border-rose-300 hover:shadow-sm"
+                  }
+                `}
+              >
+                <span
+                  className={`font-medium text-lg ${
+                    isSelected ? "text-rose-700" : "text-gray-700"
+                  }`}
+                >
+                  {option}
+                </span>
+
+                {isSelected && (
+                  <div className="absolute top-2 right-2 w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center">
+                    <Check className="w-3 h-3 text-white" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // 2. Multi choice
     if (currentStep.type === "multi") {
       const selected = currentAnswer || [];
 
@@ -121,7 +163,7 @@ const sendData = async (answers: Record<string, any>) => {
       );
     }
 
-    // 2. Pair (height ft/in)
+    // 3. Pair (height ft/in)
     if (currentStep.type === "pair") {
       const current = currentAnswer || {};
 
@@ -149,7 +191,7 @@ const sendData = async (answers: Record<string, any>) => {
       );
     }
 
-    // 3. Inputs (sizes)
+    // 4. Inputs (sizes)
     if (currentStep.type === "inputs") {
       const current = currentAnswer || {};
 
@@ -178,7 +220,7 @@ const sendData = async (answers: Record<string, any>) => {
       );
     }
 
-    // 4. Range (budget min/max)
+    // 5. Range (budget min/max)
     if (currentStep.type === "range") {
       const current = currentAnswer || {};
 
@@ -259,8 +301,9 @@ const sendData = async (answers: Record<string, any>) => {
             <button
               type="button"
               onClick={()=>next()}
+
               //disabled={!isStepValid()}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-xl font-medium shadow-md hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 transition-all"
+                  className="gradient-accent shadow-glow hover:scale-105 transition-transform disabled:opacity-50 disabled:hover:scale-100"
             >
               <span>{isLastStep ? "Complete" : "Next"}</span>
               {isLastStep ? (
